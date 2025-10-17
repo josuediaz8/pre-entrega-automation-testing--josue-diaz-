@@ -27,7 +27,23 @@ def login ():
          
          print(f"Error al iniciar sesion: {e}") #en caso de error muestra msj por consola
 
-     finally:
-        driver.quit()
+    # finally:
+     #   driver.quit()
 
-login ()
+
+
+def validar_url():
+    
+    url_actual = driver.current_url
+
+    print(f"La url actual es: {url_actual}")
+
+    assert 'inventory.html' in url_actual
+
+
+
+
+if __name__ == "__main__": #se ejcucuta solo cuando se llama el propio archivo
+   
+   login ()
+   validar_url()
