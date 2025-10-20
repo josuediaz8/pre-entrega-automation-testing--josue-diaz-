@@ -17,28 +17,39 @@ def validar_titulo():
     assert nombre_titulo == titulo_actual
 
 
+lista_productos = []
+cantidad_productos = 0
+
 def validar_articulos():
+
+    global lista_productos
+    global cantidad_productos
 
     lista_productos = driver.find_elements(By.CLASS_NAME, "inventory_item")
 
     cantidad_productos = len(lista_productos)
 
     print(f"La cantidad de productos es: {cantidad_productos}")
+
+    return cantidad_productos
     
+
+
+def listar_producto(lista_productos, cantidad_productos):
+
     if cantidad_productos > 0:
-        listar_producto(lista_productos)
+        nombre_primer_producto = lista_productos[0].find_element(By.CLASS_NAME, "inventory_item_name").text
+        precio_primer_producto = lista_productos[0].find_element(By.CLASS_NAME, "inventory_item_price").text
+        
+        print(f"El nombre del primer producto es: {nombre_primer_producto}")
+        print(f"El  precio del primer producto es: {precio_primer_producto}")
 
+        time.sleep(2)
 
-def listar_producto(lista_productos):
-    nombre_primer_producto = lista_productos[0].find_element(By.CLASS_NAME, "inventory_item_name").text
-    precio_primer_producto = lista_productos[0].find_element(By.CLASS_NAME, "inventory_item_price").text
+    else:
+        print(f"No hay productos para listar")
     
-    print(f"El nombre del primer producto es: {nombre_primer_producto}")
-    print(f"El  precio del primer producto es: {precio_primer_producto}")
-
-    time.sleep(2)
-    
-def validar_elementos_menu():
+def validar_items_menu():
 
     elementos_menu = [
         "All Items", 
@@ -66,7 +77,7 @@ def validar_elementos_menu():
     ).text
 
     #imprimimos por consola los elementos del menu
-    print(f"Los elementos del Menu son: {boton_all_items}, {boton_about}, {boton_loguot}, {boton_reset}")
+    print(f"Los Items del Menu son: {boton_all_items}, {boton_about}, {boton_loguot}, {boton_reset}")
 
     #Validamos que sean los correctos elemento
     assert elementos_menu[0] == boton_all_items
@@ -102,6 +113,9 @@ def validar_filtro_web():
 
 login()
 validar_titulo ()
-validar_articulos()
-validar_elementos_menu()
-validar_filtro_web()
+
+if __name__ == "__main__":
+    validar_articulos()
+    listar_producto(lista_productos, cantidad_productos)
+    validar_items_menu()
+    validar_filtro_web()
